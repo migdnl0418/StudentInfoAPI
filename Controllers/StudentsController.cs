@@ -43,11 +43,11 @@ namespace StudentAPI.Controllers
                 firstname = student.Firstname,
                 middlename = student.Middlename,
 
-                acadlevel_id = student.AcadlevelId ?? 1,
-                acadlevel_name = student.AcadlevelName ?? "No Levels",
+                acadlevel_id = student.Acadlevel_Id ?? 1,
+                acadlevel_name = student.Acadlevel_Name ?? "No Levels",
 
-                section_id = student.SectionId ?? 1,
-                section_name = student.SectionName ?? "No Section",
+                section_id = student.Section_Id ?? 1,
+                section_name = student.Section_Name ?? "No Section",
 
                 gender = student.Gender,
                 email = student.Email
@@ -106,11 +106,11 @@ namespace StudentAPI.Controllers
                     Firstname = s.Firstname,
                     Middlename = s.Middlename,
 
-                    AcadlevelId = s.AcadlevelId,
-                    AcadlevelName = a == null ? null : a.Name,
+                    Acadlevel_Id = s.AcadlevelId,
+                    Acadlevel_Name = a == null ? null : a.Name,
 
-                    SectionId = s.SectionId,
-                    SectionName = t == null ? null : t.Name,
+                    Section_Id = s.SectionId,
+                    Section_Name = t == null ? null : t.Name,
 
                     Gender = s.Gender,
                     Email = s.Email
