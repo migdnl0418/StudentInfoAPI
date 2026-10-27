@@ -16,11 +16,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Register your other services here
-builder.Services.AddControllers();
-
-var app = builder.Build();
-
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
 ?? throw new InvalidOperationException("Set Connection_DefaultConnection in the Evnvironment");
 builder.Services.AddDbContext<StudentDbContext>(options => options.UseNpgsql(connectionString));
@@ -28,6 +23,8 @@ builder.Services.AddDbContext<StudentDbContext>(options => options.UseNpgsql(con
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
