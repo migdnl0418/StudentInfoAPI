@@ -15,11 +15,11 @@ public class Student
     [MaxLength(100), Column("middlename")]
     public string? Middlename { get; set; }
     [Column("acadlevel_id")]
-    public int? AcadlevelId { get; set; }
+    public int? Acadlevel_Id { get; set; }
     [Column("section_id")]
-    public int? SectionId { get; set; }
+    public int? Section_Id { get; set; }
     [Required, StringLength(1), Column("gender")]
     public string Gender { get; set; } = "";
     [Required, MaxLength(100), Column("email")]
     public string Email { get; set; } = "";
-}
+}       

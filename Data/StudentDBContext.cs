@@ -9,10 +9,10 @@ public class StudentDbContext(DbContextOptions<StudentDbContext> options) : DbCo
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Student>().HasOne<AcadLevel>()
-            .WithMany().HasForeignKey(s => s.AcadlevelId)
+            .WithMany().HasForeignKey(s => s.Acadlevel_Id)
             .OnDelete(DeleteBehavior.SetNull);
         modelBuilder.Entity<Student>().HasOne<Section>()
-            .WithMany().HasForeignKey(s => s.SectionId)
+            .WithMany().HasForeignKey(s => s.Section_Id)
             .OnDelete(DeleteBehavior.SetNull);
     }
 }

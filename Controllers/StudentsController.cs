@@ -92,11 +92,11 @@ namespace StudentAPI.Controllers
                 from s in db.Students.AsNoTracking()
 
                 join a in db.AcadLevels
-                    on s.AcadlevelId equals a.Id into levels
+                    on s.Acadlevel_Id equals a.Id into levels
                 from a in levels.DefaultIfEmpty()
 
                 join t in db.Sections
-                    on s.SectionId equals t.Id into sections
+                    on s.Section_Id equals t.Id into sections
                 from t in sections.DefaultIfEmpty()
 
                 select new StudentRow
@@ -106,10 +106,10 @@ namespace StudentAPI.Controllers
                     Firstname = s.Firstname,
                     Middlename = s.Middlename,
 
-                    Acadlevel_Id = s.AcadlevelId,
+                    Acadlevel_Id = s.Acadlevel_Id,
                     Acadlevel_Name = a == null ? null : a.Name,
 
-                    Section_Id = s.SectionId,
+                    Section_Id = s.Section_Id,
                     Section_Name = t == null ? null : t.Name,
 
                     Gender = s.Gender,
@@ -203,22 +203,23 @@ namespace StudentAPI.Controllers
         // POST: ADD STUDENT
         [HttpPost]
         public async Task<IActionResult> Add(
-            [FromBody] Student student)
+            [FromBody] Student input)
         {
+            Console.WriteLine($"Received input: {input.Firstname} {input.Lastname}, Acadlevel_Id: {input.Acadlevel_Id}, Section_Id: {input.Section_Id}");
             var validationError = await ValidateStudentRelations(
-                student.AcadlevelId, student.SectionId);
+                input.Acadlevel_Id, input.Section_Id);
 
             if (validationError != null)
                 return Error(validationError);
 
-            student.Id = 0;
+            input.Id = 0;
 
-            db.Students.Add(student);
+            db.Students.Add(input);
             await db.SaveChangesAsync();
 
             // Return newly inserted student
             var createdStudent = await StudentRows()
-                .FirstOrDefaultAsync(s => s.Id == student.Id);
+                .FirstOrDefaultAsync(s => s.Id == input.Id);
 
             return Success(createdStudent);
         }
@@ -237,12 +238,8 @@ namespace StudentAPI.Controllers
             if (student == null)
                 return Error("Student not found.", 404);
 
-            // Preserve existing links when the request omits their IDs.
-            var acadlevelId = input.AcadlevelId ?? student.AcadlevelId;
-            var sectionId = input.SectionId ?? student.SectionId;
-
             var validationError = await ValidateStudentRelations(
-                acadlevelId, sectionId);
+                input.Acadlevel_Id, input.Section_Id);
 
             if (validationError != null)
                 return Error(validationError);
@@ -250,8 +247,8 @@ namespace StudentAPI.Controllers
             student.Lastname = input.Lastname;
             student.Firstname = input.Firstname;
             student.Middlename = input.Middlename;
-            student.AcadlevelId = acadlevelId;
-            student.SectionId = sectionId;
+            student.Acadlevel_Id = input.Acadlevel_Id;
+            student.Section_Id = input.Section_Id;
             student.Gender = input.Gender;
             student.Email = input.Email;
 
